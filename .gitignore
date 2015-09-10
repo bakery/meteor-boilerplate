@@ -1,0 +1,11 @@
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+dump
+settings/settings.json
+settings/staging.json
+settings/production.json
+**/tests/**/package-stubs.js
+**/tests/**/packageMocksSpec.js
+deployment
+.npm

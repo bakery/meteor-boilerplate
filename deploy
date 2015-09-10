@@ -1,0 +1,143 @@
+#!/bin/bash
+
+# these are supported deployment targets
+deployment_targets=(app admin)
+
+# git repositories
+staging_app_git="<STAGING-APP-GIT>"
+staging_admin_git="<STAGING-ADMIN-GIT>"
+staging_app_name="<STAGING-APP-NAME>"
+staging_admin_name="<STAGING-ADMIN-NAME>"
+
+# production gits
+production_app_git="<PRODUCTION-APP-GIT>"
+production_admin_git="<PRODUCTION-ADMIN-GIT>"
+production_app_name="<PRODUCTION-APP-NAME>"
+production_admin_name="<PRODUCTION-ADMIN-NAME>"
+
+# this is where deployment script lives - should be project root
+base_directory=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# this is a temp directory for deployment
+deployment_directory="$base_directory/deployment"
+# this is where settings are
+settings_directory="$base_directory/settings"
+
+
+# Usage: prepareFiles <application-folder-name>
+function prepareFiles {
+    if [ -n "$1" ];
+    then
+        echo "Preparing files for $1";
+    else
+        echo "Cannot prepare files for unspecified app";
+        exit
+    fi
+
+    # this is where the meteor app we are deploying is
+    app_directory="$base_directory/$1"
+    # this is where the apps packages are
+    app_packages_directory="$app_directory/packages"
+
+    # clean up deployment dir
+    rm -rf $deployment_directory
+    # recreate deployment dir
+    mkdir $deployment_directory
+
+    # copy all the application files excluding packages directory
+    rsync --exclude=packages/ -av $app_directory/ $deployment_directory/
+
+    # manually created packages directory in the deployment directory
+    mkdir $deployment_directory/packages
+
+    # go through all the symlinked packages in the application
+    # and copy **actual** packages into deployment packages directory
+    for f in `ls $app_packages_directory`
+    do
+      ( cd $app_packages_directory ; cp -r `readlink $f` $deployment_directory/packages )
+    done
+}
+
+# Usage: pushToHeroku <heroku-git-url> <heroku-app-name> <settings-file>
+function pushToHeroku {
+    if [ -n "$1" ];
+    then
+        echo "Pushing to $1";
+    else
+        echo "No remote specified for the push";
+        exit
+    fi
+
+    if [ -n "$2" ];
+    then
+        echo "Heroku app name: $2";
+    else
+        echo "No Heroku app specified for the push";
+        exit
+    fi
+
+    if [ -n "$3" ];
+    then
+        echo "Using settings $3";
+    else
+        echo "No settings specified for the push";
+        exit
+    fi
+
+    # proceed with Heroku deployment
+    (
+        cd $deployment_directory;
+        git init;
+        git add .;
+        git commit -m "automatic commit message";
+        git push $1 master -f
+        heroku config:set METEOR_SETTINGS="$(cat $3)" --app "$2"
+    )
+}
+
+
+if [ -n "$1" ];
+then
+    if [[ " ${deployment_targets[@]} " =~ " ${1} " ]]; then
+        git_url=""
+        app_name=""
+        settings_file=""
+
+        if [ "$2" == "--production" ]; then
+          if [ "$1" == "app" ]; then
+            git_url="$production_app_git"
+            app_name="$production_app_name"
+          fi
+
+          if [ "$1" == "admin" ]; then
+            git_url="$production_admin_git"
+            app_name="$production_admin_name"
+          fi
+
+          settings_file="$settings_directory/production.json"
+
+          echo "going for production: $git_url"
+        else
+          if [ "$1" == "app" ]; then
+            git_url="$staging_app_git"
+            app_name="$staging_app_name"
+          fi
+
+          if [ "$1" == "admin" ]; then
+            git_url="$staging_admin_git"
+            app_name="$staging_admin_name"
+          fi
+
+          settings_file="$settings_directory/staging.json"
+
+          echo "staging: $git_url"
+        fi
+
+        prepareFiles $1
+        pushToHeroku "$git_url" "$app_name" "$settings_file"
+    else
+        echo "$1 is not a valid deployment target"
+        exit
+    fi
+else
+    echo "Usage: deploy <target-name> [--production]";
+fi
