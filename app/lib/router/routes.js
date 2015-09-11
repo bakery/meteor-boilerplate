@@ -1,3 +1,5 @@
+/* globals SecuredRoutes : false */
+
 FlowRouter.route(['/','/home'], {
 	name: 'home',
   action: function() {
@@ -5,7 +7,6 @@ FlowRouter.route(['/','/home'], {
       BlazeLayout.render("appLayout", {area: "home"});
   }
 });
-
 
 FlowRouter.route('/signup', {
 	name: 'signup',
@@ -21,5 +22,21 @@ FlowRouter.route('/login', {
 	name: 'login',
   action: function() {
   	BlazeLayout.render('minimalMiddleLayout', { area: 'login' });
+  }
+});
+
+SecuredRoutes.route('/dashboard', {
+	name: 'dashboard',
+  action: function() {
+  	BlazeLayout.render('appLayout', { area: 'dashboard' });
+  }
+});
+
+SecuredRoutes.route('/logout', {
+	name: 'logout',
+  action: function() {
+  	Meteor.logout(function(){
+			FlowRouter.go(FlowRouter.path('login'));
+		});
   }
 });
