@@ -14,7 +14,7 @@ Package.onUse(function(api) {
     'alanning:roles@1.2.13',
     'kadira:flow-router@2.4.0'
   ]);
-  api.addFiles(['lib/routing.js']);
+  api.addFiles(['lib/routing.js','collections/users.js']);
   api.addFiles([
     'schemas/signup.js',
     'schemas/login.js',
