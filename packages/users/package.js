@@ -8,12 +8,14 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
   api.use(['templating','aldeed:autoform@5.5.0'], 'client');
-  api.use(['aldeed:simple-schema@1.3.3','accounts-password']);
+  api.use(['aldeed:simple-schema@1.3.3',
+    'accounts-password','alanning:roles@1.2.13']);
   api.addFiles([
     'schemas/signup.js',
     'templates/signup.html',
     'templates/signup.js'
   ],'client');
+  api.addFiles(['server/users.js'],'server');
   api.export(['SignupFormSchema']);
 });
 

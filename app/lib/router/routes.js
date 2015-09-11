@@ -10,6 +10,9 @@ FlowRouter.route(['/','/home'], {
 FlowRouter.route('/signup', {
 	name: 'signup',
   action: function() {
-  	BlazeLayout.render('minimalMiddleLayout', {area: 'signup'});
+  	BlazeLayout.render('minimalMiddleLayout', {
+			data : { roles : ['user'] },
+			area: 'signup'
+		});
   }
 });
