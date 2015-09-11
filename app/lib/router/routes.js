@@ -16,3 +16,10 @@ FlowRouter.route('/signup', {
 		});
   }
 });
+
+FlowRouter.route('/login', {
+	name: 'login',
+  action: function() {
+  	BlazeLayout.render('minimalMiddleLayout', { area: 'login' });
+  }
+});

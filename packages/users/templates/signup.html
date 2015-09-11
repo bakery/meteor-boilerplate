@@ -5,14 +5,9 @@
         Signup
       </div>
     </h2>
-
     {{#autoForm id="usersSignupForm" schema="SignupFormSchema"}}
       {{> afQuickField name="email"}}
       {{> afQuickField name="password" type="password"}}
-      <button type="submit" class="ui fluid large teal submit button">Login</button>
+      <button type="submit" class="ui fluid large teal submit button">Sign up</button>
     {{/autoForm}}
-
-    <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
-    </div>
 </template>

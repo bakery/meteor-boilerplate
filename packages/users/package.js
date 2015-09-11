@@ -11,12 +11,14 @@ Package.onUse(function(api) {
   api.use(['aldeed:simple-schema@1.3.3',
     'accounts-password','alanning:roles@1.2.13']);
   api.addFiles([
-    'schemas/signup.js',
+    'schemas/signup.js', 'schemas/login.js',
     'templates/signup.html',
-    'templates/signup.js'
+    'templates/signup.js',
+    'templates/login.html',
+    'templates/login.js'
   ],'client');
   api.addFiles(['server/users.js'],'server');
-  api.export(['SignupFormSchema']);
+  api.export(['SignupFormSchema','LoginFormSchema']);
 });
 
 Package.onTest(function(api) {

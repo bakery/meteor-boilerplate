@@ -1,0 +1,13 @@
+<template name="login">
+  <h2 class="ui teal image header">
+    <img src="assets/images/logo.png" class="image">
+    <div class="content">
+      Login
+    </div>
+  </h2>
+  {{#autoForm id="usersLoginForm" schema="LoginFormSchema"}}
+    {{> afQuickField name="email"}}
+    {{> afQuickField name="password" type="password"}}
+    <button type="submit" class="ui fluid large teal submit button">Login</button>
+  {{/autoForm}}
+</template>
