@@ -24,6 +24,14 @@
           <div class="item">Link Item</div>
         </div>
       </a>
+      {{#if currentUser}}
+        <!-- XX: show logged in user stuff here -->
+      {{else}}
+        <div class="right item">
+          <a href="{{pathFor 'login'}}" class="ui inverted button">Log in</a>
+          <a href="{{pathFor 'signup'}}" class="ui inverted button">Sign Up</a>
+        </div>
+      {{/if}}
     </div>
   </div>
 </template>
