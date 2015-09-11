@@ -128,11 +128,14 @@
       "Random": false,
       "_": false,               // Underscore.js
       "$": false,               // jQuery
-      "Router": false,           // iron-router
+      "FlowRouter": false,      // flow-router
+      "BlazeLayout":false,      // blaze-layout
+      "AutoForm":false,         // autoform
+      "SimpleSchema":false,     // simple schema
 
       // jasmine
       "describe": false,
       "it": false,
-      "expect": false 
+      "expect": false
     }
 }

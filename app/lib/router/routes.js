@@ -1,9 +1,15 @@
 FlowRouter.route(['/','/home'], {
 	name: 'home',
-  subscriptions: function(params) {
-  },
-  action: function(params) {
+  action: function() {
       console.log("Yeah! We are on the home page");
       BlazeLayout.render("appLayout", {area: "home"});
+  }
+});
+
+
+FlowRouter.route('/signup', {
+	name: 'signup',
+  action: function() {
+  	BlazeLayout.render('minimalMiddleLayout', {area: 'signup'});
   }
 });

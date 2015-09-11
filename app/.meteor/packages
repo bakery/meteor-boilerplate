@@ -21,7 +21,8 @@ aldeed:autoform
 arillo:flow-router-helpers
 kadira:blaze-layout
 kadira:flow-router
-useraccounts:flow-routing
 semantic:ui
 flemay:less-autoprefixer
 project:sample-package
+common:users
+fabienb4:autoform-semantic-ui
