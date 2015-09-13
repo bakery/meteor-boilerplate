@@ -8,6 +8,16 @@ SignupFormSchema = new SimpleSchema({
   },
   password : {
     label : 'Password',
-    type : String
+    type : String,
+    autoform : {
+      type : 'password'
+    }
+  },
+  imageUrl : {
+    label : 'Profile image',
+    type : String,
+    autoform : {
+      type : 'image-upload'
+    }
   }
 });

@@ -7,7 +7,8 @@
     </h2>
     {{#autoForm id="usersSignupForm" schema="SignupFormSchema"}}
       {{> afQuickField name="email"}}
-      {{> afQuickField name="password" type="password"}}
+      {{> afQuickField name="password"}}
+      {{> afQuickField name="imageUrl"}}
       <button type="submit" class="ui fluid large teal submit button">Sign up</button>
     {{/autoForm}}
 </template>

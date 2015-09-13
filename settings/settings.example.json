@@ -1,2 +1,6 @@
 {
+  "AWSAccessKeyId" : "ACCESS-KEY-FOR-S3-UPLOADS",
+  "AWSSecretAccessKey": "SECRET-ACCESS-KEY-FOR-S3-UPLOADS",
+  "AWSRegion" : "REGION-WHERE-THE-BUCKET-IS",
+  "AWSBucket" : "NAME-OF-THE-BUCKET"
 }

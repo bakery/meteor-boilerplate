@@ -1,0 +1,23 @@
+<template name="afImageUpload">
+		<div class="image-upload-pic">
+			{{#if imageUrl}}
+				<img src="{{imageUrl}}">
+			{{else}}
+				<img src="{{placeholder}}">
+			{{/if}}
+		</div>
+		<div class="image-upload-button">
+			<a type="button" class="btn btn-primary upload-button" {{uploadButtonAtts}}>
+				{{#if uploading}}
+					<i class="fa fa-cog fa-spin"></i> Chargement...
+				{{else}}
+					<i class="fa fa-upload"></i>
+					{{#if imageUrl}}Changer l'image{{else}}Ajouter une image{{/if}}
+				{{/if}}
+			</a>
+		</div>
+
+		<!-- move standard upload control way off screen -->
+		<input type="file" name="file-upload-input" style="position:absolute; left:-1000px; top:-1000px;">
+		<input {{atts}} type="hidden" value="{{imageUrl}}">
+</template>

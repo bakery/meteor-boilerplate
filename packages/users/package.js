@@ -7,15 +7,23 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
-  api.use(['templating','tracker','session','aldeed:autoform@5.5.0'], 'client');
+  api.use(['templating','tracker', 'reactive-var',
+    'session','aldeed:autoform@5.5.0'], 'client');
   api.use([
     'aldeed:simple-schema@1.3.3',
     'accounts-password',
     'alanning:roles@1.2.13',
-    'kadira:flow-router@2.4.0'
+    'kadira:flow-router@2.4.0',
+    'edgee:slingshot@0.7.1'
   ]);
-  api.addFiles(['lib/routing.js','collections/users.js']);
   api.addFiles([
+    'lib/routing.js',
+    'collections/users.js'
+  ]);
+
+  api.addFiles([
+    'lib/inputs/file-upload/template.html',
+    'lib/inputs/file-upload/template.js',
     'schemas/signup.js',
     'schemas/login.js',
     'templates/signup.html',
@@ -23,7 +31,7 @@ Package.onUse(function(api) {
     'templates/login.html',
     'templates/login.js'
   ],'client');
-  api.addFiles(['server/users.js'],'server');
+  api.addFiles(['server/users.js','server/uploads.js'],'server');
   api.export(['SignupFormSchema',
   'LoginFormSchema','SecuredRoutes','AdminRoutes']);
 });
