@@ -2,14 +2,14 @@
 
 var fileInputSelector = 'input[name=file-upload-input]';
 
-Template.afImageUpload.onCreated(function(){
+Template.afImageUpload_semanticUI.onCreated(function(){
   this.imageUrl = new ReactiveVar(this.data.value);
   this.cropping = new ReactiveVar(false);
   this.uploading = new ReactiveVar(false);
   this.croppingImageUrl = new ReactiveVar(null);
 });
 
-Template.afImageUpload.onRendered(function(){
+Template.afImageUpload_semanticUI.onRendered(function(){
   var that = this;
   that.autorun(function(){
     var imageData = ImageCropper.getImageData();
@@ -30,8 +30,9 @@ Template.afImageUpload.onRendered(function(){
   });
 });
 
-Template.afImageUpload.events({
+Template.afImageUpload_semanticUI.events({
   'click .upload-button' : function(e,template){
+    e.stopPropagation();
     template.$(fileInputSelector).click();
   },
 
@@ -43,7 +44,7 @@ Template.afImageUpload.events({
   }
 });
 
-Template.afImageUpload.helpers({
+Template.afImageUpload_semanticUI.helpers({
   imageUrl : function(){
     return Template.instance().imageUrl ?
       Template.instance().imageUrl.get() : null;
@@ -57,7 +58,7 @@ Template.afImageUpload.helpers({
       Template.instance().uploading.get() : null;
   },
   cropping : function(){
-    return Template.instance().cropping &&
+    return Template.instance().cropping.get() &&
       !ImageCropper.isDoneCropping();
   },
   uploadButtonAtts : function(){
@@ -67,7 +68,7 @@ Template.afImageUpload.helpers({
   },
   placeholder : function(){
     return Template.currentData().atts.placeholder ||
-      "http://placehold.it/270x130";
+      "http://placehold.it/200x200";
   }
 });
 

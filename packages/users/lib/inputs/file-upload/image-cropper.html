@@ -1,6 +1,9 @@
 <template name="imageCropper">
-  <div class="cropper-image-container" style="max-width:100%;max-height:400px;">
-      <img class="cropping-image" src="{{url}}">
-      <button class="done">Done</button>
+  <div class="cropping-image-container" style="max-width:300px; max-height:300px;">
+    <img class="cropping-image" src="{{url}}">
+  </div>
+  <div class="ui two bottom attached buttons">
+    <button type="button" class="ui button done">Use Image</button>
+    <button type="button" class="ui button cancel">Cancel</button>
   </div>
 </template>

@@ -1,30 +1,34 @@
-<template name="afImageUpload">
+<template name="afImageUpload_semanticUI">
 
-		{{#if cropping}}
-			<div class="image-upload-pic" style="max-width:100%;max-height:400px;">
-				{{#if croppingImageUrl}}
-					{{> imageCropper url=croppingImageUrl}}
-				{{/if}}
-			</div>
-		{{else}}
-			<div class="image-upload-pic">
-				{{#if imageUrl}}
-					<img src="{{imageUrl}}">
+		<div class="ui centered card">
+      <div class="image">
+				{{#if cropping}}
+					{{#if croppingImageUrl}}
+						{{> imageCropper url=croppingImageUrl}}
+					{{/if}}
 				{{else}}
-					<img src="{{placeholder}}">
+					{{#if imageUrl}}
+						<img src="{{imageUrl}}">
+					{{else}}
+						<img src="{{placeholder}}">
+					{{/if}}
 				{{/if}}
-			</div>
-		{{/if}}
-		<div class="image-upload-button">
-			<a type="button" class="btn btn-primary upload-button" {{uploadButtonAtts}}>
-				{{#if uploading}}
-					<i class="fa fa-cog fa-spin"></i> Chargement...
-				{{else}}
-					<i class="fa fa-upload"></i>
-					{{#if imageUrl}}Changer l'image{{else}}Ajouter une image{{/if}}
-				{{/if}}
-			</a>
-		</div>
+      </div>
+
+			{{#if cropping}}{{else}}
+				<div class="content">
+					{{#if uploading}}
+						loading...
+					{{else}}
+						<button type="button" class="ui basic button upload-button" {{uploadButtonAtts}}>
+								<i class="icon upload"></i>
+								{{#if imageUrl}}Change image{{else}}Add image{{/if}}
+						</button>
+					{{/if}}
+				</div>
+			{{/if}}
+
+    </div>
 
 		<!-- move standard upload control way off screen -->
 		<input type="file" name="file-upload-input" style="position:absolute; left:-1000px; top:-1000px;">
