@@ -54,9 +54,14 @@ Template.imageCropper.onRendered(function(){
 });
 
 Template.imageCropper.events({
+
+  'click .cancel' : function(){
+    ImageCropper.doneCropping.set(true);
+  },
+
   'click .done' : function(e,template){
 
-    var imageData = template.$('.cropper-image-container > img')
+    var imageData = template.$('.cropping-image')
       .cropper('getCroppedCanvas',{width: 200, height: 200}).toDataURL();
     // parts should have 3 elements:
     // - the whole string
