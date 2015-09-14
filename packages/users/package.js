@@ -14,7 +14,8 @@ Package.onUse(function(api) {
     'accounts-password',
     'alanning:roles@1.2.13',
     'kadira:flow-router@2.4.0',
-    'edgee:slingshot@0.7.1'
+    'edgee:slingshot@0.7.1',
+    'jonblum:jquery-cropper@0.11.0'
   ]);
   api.addFiles([
     'lib/routing.js',
@@ -22,6 +23,8 @@ Package.onUse(function(api) {
   ]);
 
   api.addFiles([
+    'lib/inputs/file-upload/image-cropper.html',
+    'lib/inputs/file-upload/image-cropper.js',
     'lib/inputs/file-upload/template.html',
     'lib/inputs/file-upload/template.js',
     'schemas/signup.js',

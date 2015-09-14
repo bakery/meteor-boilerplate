@@ -1,11 +1,20 @@
 <template name="afImageUpload">
-		<div class="image-upload-pic">
-			{{#if imageUrl}}
-				<img src="{{imageUrl}}">
-			{{else}}
-				<img src="{{placeholder}}">
-			{{/if}}
-		</div>
+
+		{{#if cropping}}
+			<div class="image-upload-pic" style="max-width:100%;max-height:400px;">
+				{{#if croppingImageUrl}}
+					{{> imageCropper url=croppingImageUrl}}
+				{{/if}}
+			</div>
+		{{else}}
+			<div class="image-upload-pic">
+				{{#if imageUrl}}
+					<img src="{{imageUrl}}">
+				{{else}}
+					<img src="{{placeholder}}">
+				{{/if}}
+			</div>
+		{{/if}}
 		<div class="image-upload-button">
 			<a type="button" class="btn btn-primary upload-button" {{uploadButtonAtts}}>
 				{{#if uploading}}

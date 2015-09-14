@@ -1,18 +1,31 @@
-/* globals AutoForm:false, Slingshot:false */
+/* globals AutoForm:false, Slingshot:false, ImageCropper:false */
 
 var fileInputSelector = 'input[name=file-upload-input]';
 
 Template.afImageUpload.onCreated(function(){
   this.imageUrl = new ReactiveVar(this.data.value);
+  this.cropping = new ReactiveVar(false);
   this.uploading = new ReactiveVar(false);
+  this.croppingImageUrl = new ReactiveVar(null);
 });
 
 Template.afImageUpload.onRendered(function(){
   var that = this;
-  this.autorun(function(){
-    if(that.imageUrl){
-      that.imageUrl.get();
-      that.$('input[type=hidden]').trigger('change');
+  that.autorun(function(){
+    var imageData = ImageCropper.getImageData();
+    if(imageData){
+      that.uploading.set(true);
+
+      var uploader = new Slingshot.Upload('image-uploads');
+      uploader.send(imageData, function (error, downloadUrl) {
+        that.uploading.set(false);
+        if (error) {
+          alert(error);
+        }
+        else {
+          that.imageUrl.set(downloadUrl);
+        }
+      });
     }
   });
 });
@@ -23,31 +36,29 @@ Template.afImageUpload.events({
   },
 
   'change input[name=file-upload-input]' : function(e,template){
-    var uploader = new Slingshot.Upload('image-uploads');
     var file = template.$(fileInputSelector)[0].files[0];
-
-    template.uploading.set(true);
-
-    uploader.send(file, function (error, downloadUrl) {
-      template.uploading.set(false);
-      if (error) {
-        alert(error);
-      }
-      else {
-        template.imageUrl.set(downloadUrl);
-      }
-    });
+    ImageCropper.reset();
+    Template.instance().cropping.set(true);
+    Template.instance().croppingImageUrl.set(URL.createObjectURL(file));
   }
 });
 
 Template.afImageUpload.helpers({
   imageUrl : function(){
     return Template.instance().imageUrl ?
-    Template.instance().imageUrl.get() : null;
+      Template.instance().imageUrl.get() : null;
+  },
+  croppingImageUrl : function(){
+    return Template.instance().croppingImageUrl ?
+      Template.instance().croppingImageUrl.get() : null;
   },
   uploading : function(){
     return Template.instance().uploading ?
       Template.instance().uploading.get() : null;
+  },
+  cropping : function(){
+    return Template.instance().cropping &&
+      !ImageCropper.isDoneCropping();
   },
   uploadButtonAtts : function(){
     return Template.instance().uploading &&
