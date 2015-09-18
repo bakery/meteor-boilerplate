@@ -25,6 +25,25 @@ FlowRouter.route('/login', {
   }
 });
 
+FlowRouter.route('/forgot-password', {
+	name: 'forgotPassword',
+  action: function() {
+  	BlazeLayout.render('minimalMiddleLayout', { area: 'forgotPasswordForm' });
+  }
+});
+
+FlowRouter.route('/reset-password/:token', {
+	name: 'forgotPassword',
+  action: function(params) {
+  	BlazeLayout.render('minimalMiddleLayout',
+			{
+				area: 'resetPasswordForm',
+				data : { token : params.token }
+			}
+		);
+  }
+});
+
 SecuredRoutes.route('/dashboard', {
 	name: 'dashboard',
   action: function() {

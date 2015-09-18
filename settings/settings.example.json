@@ -2,5 +2,15 @@
   "AWSAccessKeyId" : "ACCESS-KEY-FOR-S3-UPLOADS",
   "AWSSecretAccessKey": "SECRET-ACCESS-KEY-FOR-S3-UPLOADS",
   "AWSRegion" : "REGION-WHERE-THE-BUCKET-IS",
-  "AWSBucket" : "NAME-OF-THE-BUCKET"
+  "AWSBucket" : "NAME-OF-THE-BUCKET",
+
+  "Email" : {
+    "from" : "Email sender <mailer@yourcompany.com>",
+    "siteName" : "What is your site called anyways?"
+  },
+  
+  "MAILGUN" : {
+    "username" : "<MAILGUN-USERNAME>",
+    "password" : "<MAILGUN-PASSWORD>"
+  }
 }
