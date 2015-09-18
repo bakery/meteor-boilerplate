@@ -5,10 +5,11 @@ SecuredRoutes = FlowRouter.group({
   triggersEnter: [function() {
     if(!(Meteor.loggingIn() || Meteor.userId())){
       var route = FlowRouter.current();
+      var redirectParams = {};
       if(route.route.name !== 'login'){
-        Session.set('redirectAfterLogin', route.path);
+        redirectParams.url = route.path;
       }
-      FlowRouter.go('login');
+      FlowRouter.go('login',{},redirectParams);
     }
   }]
 });
@@ -17,7 +18,12 @@ SecuredRoutes = FlowRouter.group({
 AdminRoutes = SecuredRoutes.group({
   triggersEnter: [function() {
     if(!Roles.userIsInRole(Meteor.user(), ['admin'])){
-      FlowRouter.go(FlowRouter.path('home'));
+      var route = FlowRouter.current();
+      var redirectParams = {};
+      if(route.route.name !== 'login'){
+        redirectParams.url = route.path;
+      }
+      FlowRouter.go('login',{},redirectParams);
     }
   }]
 });
@@ -25,21 +31,17 @@ AdminRoutes = SecuredRoutes.group({
 
 if(Meteor.isClient){
   // XX: keep an eye on the login status of the user
-  
+
   Accounts.onLogin(function(){
     Meteor.logoutOtherClients();
     Session.set('loggedIn', true);
-    var redirect = Session.get('redirectAfterLogin') || 'dashboard';
-    if(redirect && redirect !== 'login'){
-      FlowRouter.go(redirect);
-    }
+    var redirect = FlowRouter.current().queryParams.url || '/';
+    FlowRouter.go(redirect);
   });
 
   Tracker.autorun(function(){
     if(!Meteor.userId() && Session.get('loggedIn')){
-      var route = FlowRouter.current();
       Session.set('loggedIn', false);
-      Session.set('redirectAfterLogin', route.path);
       FlowRouter.go(FlowRouter.path('login'));
     }
   });

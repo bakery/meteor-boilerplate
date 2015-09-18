@@ -17,6 +17,8 @@ Package.onUse(function(api) {
     'edgee:slingshot@0.7.1',
     'jonblum:jquery-cropper@0.11.0'
   ]);
+  api.use(['cmather:handlebars-server@0.2.0'],'server');
+
   api.addFiles([
     'lib/routing.js',
     'collections/users.js'
@@ -32,11 +34,24 @@ Package.onUse(function(api) {
     'templates/signup.html',
     'templates/signup.js',
     'templates/login.html',
-    'templates/login.js'
+    'templates/login.js',
+    'templates/forgot-password.html',
+    'templates/forgot-password.js',
+    'templates/reset-password.html',
+    'templates/reset-password.js'
   ],'client');
-  api.addFiles(['server/users.js','server/uploads.js'],'server');
-  api.export(['SignupFormSchema',
-  'LoginFormSchema','SecuredRoutes','AdminRoutes']);
+  api.addFiles([
+    'server/templates/emails/email.handlebars',
+    'server/templates/emails/resetPassword.handlebars',
+    'server/templates/emails/resetPasswordSubject.handlebars',
+    'server/templates/emails/enrollAccount.handlebars',
+    'server/templates/emails/enrollAccountSubject.handlebars',
+    'server/users.js',
+    'server/uploads.js',
+    'server/accounts-config.js'
+  ],'server');
+  api.export(['SignupFormSchema','LoginFormSchema',
+    'SecuredRoutes','AdminRoutes']);
 });
 
 Package.onTest(function(api) {
